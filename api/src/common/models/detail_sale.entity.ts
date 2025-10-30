@@ -14,7 +14,7 @@ export class DetailSale {
     product_id: Product;
 
     @Column("decimal", { precision: 10, scale: 2 })
-    price: number; // En tu diagrama era 'product_value', pero 'price' está bien
+    price: number; 
     
     @Column()
     quantity: number;
