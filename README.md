@@ -47,7 +47,7 @@ Antes de ejecutar el proyecto, asegúrate de tener instalados:
    ```
 
 2. levanta la BD con docker-compose up -d
-3. Instala dependecias en frontend y api folders
+3. Instala dependecias en frontend y api folders (cd api && npm i ), (cd frontend && npm i)
 
 4. levanta front - npm run dev
 5. levanta back - npm run start:dev
