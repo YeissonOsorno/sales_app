@@ -1,31 +1,33 @@
-import { useState, useEffect } from 'react';
-import { api } from '@/api/api';
+import { useState, useEffect, useCallback } from 'react';
+import { api } from '@/api/api'; 
 
-export function useApi<T>(endpoint: string) {
+export function useApi<T>(url: string) {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<Error | null>(null);
+
+  const [refreshIndex, setRefreshIndex] = useState(0); 
+
+  const refetch = useCallback(() => {
+    setRefreshIndex(prev => prev + 1);
+  }, []);
 
   useEffect(() => {
-    let active = true;
-
     const fetchData = async () => {
       setLoading(true);
+      setError(null);
       try {
-        const res = await api.get(endpoint);
-        if (active) setData(res.data);
+        const response = await api.get<T>(url);
+        setData(response.data);
       } catch (err: any) {
-        if (active) setError(err.message);
+        setError(err);
       } finally {
-        if (active) setLoading(false);
+        setLoading(false);
       }
     };
 
     fetchData();
-    return () => {
-      active = false;
-    };
-  }, [endpoint]);
+  }, [url, refreshIndex]);
 
-  return { data, loading, error };
+  return { data, loading, error, refetch }; 
 }

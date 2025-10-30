@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus, Search, Users } from "lucide-react";
@@ -24,6 +24,13 @@ const Index = () => {
     updateClients,
     deleteClients,
   } = useClient();
+
+  /*const [clients, setClients] = useState<any>([]);
+   useEffect(() => {
+    if (clientsData) {
+      setClients(clientsData);
+    }
+  }, [clientsData]);*/
   const clients = clientsData || [];
 
   
@@ -34,17 +41,21 @@ const Index = () => {
   const handleSaveClient = async (client: Client) => {
     try{
       if (editingClient) {
-        const clientId : number = client.id!;
-        delete client.id;
-       await updateClients(clientId, client); // Asumo que el hook necesita el ID y el objeto completo o parcial
-              toast.success("Cliente actualizado", {
-                description: "Los cambios se guardaron correctamente en el sistema.",
-              });
+        const clientToUpdate = { ...client }; 
+        const clientId : number = clientToUpdate.id!;
+        delete clientToUpdate.id; 
+        await updateClients(clientId, clientToUpdate);
+        toast.success("Cliente actualizado", {
+          description: "Los cambios se guardaron correctamente en el sistema.",
+        });
+        window.location.reload();
+        
     } else {
       await createClients(client); 
-          toast.success("Cliente registrado", {
-            description: "El cliente se agregó exitosamente al sistema.",
-          });
+      toast.success("Cliente registrado", {
+        description: "El cliente se agregó exitosamente al sistema.",
+      });
+      window.location.reload();
     }
     setEditingClient(null);
     setDialogOpen(false);
@@ -67,6 +78,7 @@ const Index = () => {
       toast.warning("Cliente eliminado", {
         description: "El cliente se eliminó correctamente del sistema.",
       });
+      window.location.reload();
     } catch (err:any) {
       toast.error("Error al eliminar", {
         description: `No se pudo eliminar el cliente: ${err.message || 'Error desconocido'}`,
