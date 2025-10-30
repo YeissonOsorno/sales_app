@@ -52,7 +52,7 @@ Antes de ejecutar el proyecto, asegúrate de tener instalados:
 4. levanta front - npm run dev
 5. levanta back - npm run start:dev
 ## Estructura del Proyecto
-
+![alt text](image.png)
 ```
 sales_app/
 ├── api/                    # Backend API (NestJS)
