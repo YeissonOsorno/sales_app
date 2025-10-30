@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_db_sales_app
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: O1qjvaV6Zx1hYGxiI8AwLCaeglrYkBzu2fWSoYuF0f+Zf0gKioZAsZGUJXZpBmsT
+      POSTGRES_DB: sales_app_db
+    ports:
+      - '5432:5432'
+    networks:
+      - local
+    restart: always
+
+
+networks:
+  local:
+    driver: bridge
