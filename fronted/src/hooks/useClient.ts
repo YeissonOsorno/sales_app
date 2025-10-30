@@ -16,7 +16,7 @@ export function useClient() {
   }
 
   async function updateClients(id: number, data: Partial<Clients>) {
-    return api.put(`/clients/${id}`, data);
+    return api.patch(`/clients/${id}`, data);
   }
 
   async function deleteClients(id: number) {
